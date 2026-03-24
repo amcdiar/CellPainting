@@ -1,0 +1,31 @@
+# Start of script
+# This script concatenates the output data matrices from Cell Profile to create a screen-level, multi-plate dataframe including all image or cell level objects with their corresponding extracted features. 
+
+# Load library
+library(dplyr)
+
+# Set your directory
+setwd("/Users/aminamcdiarmid/Downloads/KCGS_Amina_090326/image_level_data/matrices/")
+
+# List all CSV files you want to merge
+files_to_merge <- c(
+  "amkinlibsx31-2_Image.csv",
+  "amkinlibsx31-4_Image.csv",
+  "amkinlibsx31-6_Image.csv",
+  "amkinlibsx31-8_Image.csv"
+)
+
+# Read each CSV safely
+df_list <- lapply(files_to_merge, function(f) {
+  read.csv(f, stringsAsFactors = FALSE)
+})
+
+# Concatenate (bind rows, align columns automatically)
+df_combined <- bind_rows(df_list)
+
+# Save output
+write.csv(df_combined, "amkinlibsx31_concat_Image.csv", row.names = FALSE)
+
+cat("✔ Combined dataset saved as amkinlibsx31_concat_Image.csv\n")
+
+# End of script
